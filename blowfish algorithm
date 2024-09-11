@@ -1,0 +1,30 @@
+import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+
+public class BlowfishExample {
+    public static void main(String[] args) throws Exception {
+        // Generating a Blowfish key
+        KeyGenerator keyGen = KeyGenerator.getInstance("Blowfish");
+        SecretKey blowfishKey = keyGen.generateKey();
+        
+        // Creating a Blowfish cipher
+        Cipher blowfishCipher = Cipher.getInstance("Blowfish");
+
+        // Initialize the cipher for encryption
+        blowfishCipher.init(Cipher.ENCRYPT_MODE, blowfishKey);
+
+        String message = "Hello Blowfish!";
+        byte[] textEncrypted = blowfishCipher.doFinal(message.getBytes());
+        
+        // Display encrypted message
+        System.out.println("Encrypted Text: " + new String(textEncrypted));
+
+        // Initialize the cipher for decryption
+        blowfishCipher.init(Cipher.DECRYPT_MODE, blowfishKey);
+        byte[] textDecrypted = blowfishCipher.doFinal(textEncrypted);
+
+        // Display decrypted message
+        System.out.println("Decrypted Text: " + new String(textDecrypted));
+    }
+}
