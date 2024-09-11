@@ -1,0 +1,63 @@
+#include <stdio.h>
+#include <string.h>
+
+// Function to count frequency of each character
+void countFrequency(char *ciphertext, int freq[26]) {
+    int len = strlen(ciphertext);
+    for (int i = 0; i < len; i++) {
+        if (ciphertext[i] >= 'a' && ciphertext[i] <= 'z') {
+            freq[ciphertext[i] - 'a']++;
+        }
+    }
+}
+
+// Function to find the most frequent character index
+int findMostFrequent(int freq[26]) {
+    int max = 0;
+    int index = 0;
+    for (int i = 0; i < 26; i++) {
+        if (freq[i] > max) {
+            max = freq[i];
+            index = i;
+        }
+    }
+    return index;
+}
+
+// Function to decrypt the Caesar cipher with a given shift
+void decrypt(char *ciphertext, int shift) {
+    char decryptedText[100];
+    int len = strlen(ciphertext);
+
+    for (int i = 0; i < len; i++) {
+        char c = ciphertext[i];
+        if (c >= 'a' && c <= 'z') {
+            decryptedText[i] = ((c - 'a' - shift + 26) % 26) + 'a';
+        } else {
+            decryptedText[i] = c;
+        }
+    }
+    decryptedText[len] = '\0';
+    printf("Decrypted Text: %s\n", decryptedText);
+}
+
+int main() {
+    char ciphertext[] = "cxknxawxccxkncqjcrbcqnzdnbcrxwfruurjvbqjtnbynjan";
+    int freq[26] = {0};
+
+    // Step 1: Count frequency of characters
+    countFrequency(ciphertext, freq);
+
+    // Step 2: Find the most frequent character
+    int mostFrequentIndex = findMostFrequent(freq);
+    char mostFrequentChar = 'a' + mostFrequentIndex;
+
+    // Step 3: Assume most frequent character corresponds to 'e'
+    int shift = (mostFrequentChar - 'e' + 26) % 26;
+    printf("Assumed Caesar Cipher Shift: %d\n", shift);
+
+    // Step 4: Decrypt the ciphertext
+    decrypt(ciphertext, shift);
+
+    return 0;
+}
