@@ -1,0 +1,55 @@
+#include <stdio.h>
+#include <string.h>
+
+// Function to encrypt using Rail Fence Cipher
+void encryptRailFence(char *message, int rails) {
+    int len = strlen(message);
+    char rail[rails][len];  // Create a 2D array to store characters in a zigzag pattern
+
+    // Initialize the rail matrix with null characters
+    for (int i = 0; i < rails; i++) {
+        for (int j = 0; j < len; j++) {
+            rail[i][j] = '\n';  // Filling array with a new line placeholder
+        }
+    }
+
+    // Variables to determine the direction and current row
+    int row = 0;
+    int direction = 1; // 1 for down, -1 for up
+
+    // Place each character of the message into the rail matrix in zigzag manner
+    for (int i = 0; i < len; i++) {
+        rail[row][i] = message[i];
+
+        // Check if we need to change direction
+        if (row == 0) {
+            direction = 1; // Move down
+        } else if (row == rails - 1) {
+            direction = -1; // Move up
+        }
+
+        // Move to the next row based on the direction
+        row += direction;
+    }
+
+    // Read the matrix row by row to get the ciphertext
+    printf("Encrypted message: ");
+    for (int i = 0; i < rails; i++) {
+        for (int j = 0; j < len; j++) {
+            if (rail[i][j] != '\n') {  // Only print valid characters
+                printf("%c", rail[i][j]);
+            }
+        }
+    }
+    printf("\n");
+}
+
+int main() {
+    char message[] = "RAILFENCE"; // Message to be encrypted
+    int rails = 3;                // Number of rails
+
+    // Call the encryption function
+    encryptRailFence(message, rails);
+
+    return 0;
+}
