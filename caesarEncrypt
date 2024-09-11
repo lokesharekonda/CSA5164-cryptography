@@ -1,0 +1,32 @@
+#include <stdio.h>
+#include <string.h>
+
+void caesarEncrypt(char *message, int shift) {
+    for (int i = 0; message[i] != '\0'; i++) {
+        char c = message[i];
+        if (c >= 'a' && c <= 'z') {
+            message[i] = (c - 'a' + shift) % 26 + 'a';
+        } else if (c >= 'A' && c <= 'Z') {
+            message[i] = (c - 'A' + shift) % 26 + 'A';
+        }
+    }
+}
+
+void caesarDecrypt(char *message, int shift) {
+    caesarEncrypt(message, 26 - shift);  // Reverse encryption
+}
+
+int main() {
+    char message[] = "defend the east wall of the castle";
+    int shift = 1;
+
+    printf("Original: %s\n", message);
+    
+    caesarEncrypt(message, shift);
+    printf("Encrypted: %s\n", message);
+
+    caesarDecrypt(message, shift);
+    printf("Decrypted: %s\n", message);
+
+    return 0;
+}
