@@ -1,0 +1,10 @@
+#include <stdio.h>
+
+int main() {
+    char *str = "Hello world";
+    while (*str) {
+        printf("%c", *str ^ 0);  // XOR with 0 has no effect
+        str++;
+    }
+    return 0;
+}
